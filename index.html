@@ -57,9 +57,9 @@
 					<p class="fragment">Small introduction to the language</p>
 					<p class="fragment">3 features I like about Clojure:</p>
 					<ol>
-						<li class="fragment">Pattern matching</li>
 						<li class="fragment">Macros</li>
 						<li class="fragment">Protocols</li>
+						<li class="fragment">Pattern matching</li>
 					</ol>
 				</section>
 
@@ -142,33 +142,6 @@ nil                 ; Null
           </section>
 				</section>
 
-          <section>
-            <section>
-            <h2>Pattern matching</h2>
-              <h3>Destructuring</h3>
-              <pre><code data-trim contenteditable>
-(def some-numbers [1 2 3 4 5])
-
-(let [[_ _ _ x _] some-numbers] x)
-; => 4
-              </code></pre>
-            </section>
-            <section>
-              <h3>Fizz Buzz example</h3>
-              <pre><code data-trim contenteditable>
-  (use '[clojure.core.match :only (match)])
-
-  (doseq [n (range 1 101)]
-    (println
-      (match [(mod n 3) (mod n 5)]
-        [0 0] "FizzBuzz"
-        [0 _] "Fizz"
-        [_ 0] "Buzz"
-        :else n)))
-              </code></pre>
-            </section>
-          </section>
-
 				<section>
           <section>
             <h2>Macros</h2>
@@ -195,6 +168,33 @@ nil                 ; Null
 				<section>
 					<h2>Protocols</h2>
 				</section>
+
+       <section>
+          <section>
+          <h2>Pattern matching</h2>
+            <h3>Destructuring</h3>
+            <pre><code data-trim contenteditable>
+(def some-numbers [1 2 3 4 5])
+
+(let [[_ _ _ x _] some-numbers] x)
+; => 4
+            </code></pre>
+          </section>
+          <section>
+            <h3>Fizz Buzz example</h3>
+            <pre><code data-trim contenteditable>
+(use '[clojure.core.match :only (match)])
+
+(doseq [n (range 1 101)]
+  (println
+    (match [(mod n 3) (mod n 5)]
+      [0 0] "FizzBuzz"
+      [0 _] "Fizz"
+      [_ 0] "Buzz"
+      :else n)))
+            </code></pre>
+          </section>
+        </section>
 
 				<section>
 					<h2>A great book</h2>
