@@ -179,13 +179,13 @@ nil                 ; Null
           <section>
             <h2>Macros</h2>
             <pre><code data-trim contenteditable>
-(defmacro assert-equals [actual expected]
+(defmacro assert-equals [expected actual]
     `(when-not (= ~actual ~expected)
         (throw
             (AssertionError.
                 (str "Expected " ~expected " but was " ~actual)))))
 
-(assert-equals 5 6)
+(assert-equals 6 5)
 ; => AssertionError Expected 6 but was 5
             </code></pre>
           </section>
