@@ -55,10 +55,10 @@
 				<section>
 					<h2>What will I cover in this talk?</h2>
 					<p class="fragment">Small introduction to the language</p>
-					<p class="fragment">3 features I like about Clojure:</p>
+					<p class="fragment">Some features I like about Clojure:</p>
 					<ol>
 						<li class="fragment">Macros</li>
-						<li class="fragment">Protocols</li>
+						<li class="fragment">Multi-methods</li>
 						<li class="fragment">Pattern matching</li>
 					</ol>
 				</section>
@@ -105,6 +105,21 @@ nil                 ; Null
           </section>
 
           <section>
+            <h3>Some branching</h3>
+					  <pre><code data-trim contenteditable>
+(if (> 2 1)                ; test
+  "this will be returned") ; true
+  "this won't"             ; false
+
+(cond
+    (< n 0) "negative"
+    (> n 0) "positive"
+    :else "zero"))
+            </code></pre>
+            <p>plus and, or, when, if-not...</p>
+          </section>
+
+          <section>
             <h3>Functions</h3>
 					  <pre><code data-trim contenteditable>
 (println "Hello Functional programmers!")
@@ -117,7 +132,7 @@ nil                 ; Null
             </code></pre>
           </section>
 
-          <section data-transition="none">
+          <section>
             <h3>Functions</h3>
 					  <pre><code data-trim contenteditable>
 (defn hello
@@ -129,8 +144,8 @@ nil                 ; Null
             <p>Parentheses are weird!</p>
           </section>
 
-          <section id="noparens" data-transition="none">
-            <h3>But don't let them scare you</h3>
+          <section>
+            <h3>But don't let them scare you!</h3>
 					  <pre><code data-trim contenteditable>
  defn hello
   "Print a greeting"
@@ -158,6 +173,19 @@ nil                 ; Null
             </code></pre>
           </section>
           <section>
+            <h2>Macros</h2>
+            <pre><code data-trim contenteditable>
+(defmacro assert-equals [actual expected]
+    `(when-not (= ~actual ~expected)
+        (throw
+            (AssertionError.
+                (str "Expected " ~expected " but was " ~actual)))))
+
+(assert-equals 5 6)
+; => AssertionError Expected 6 but was 5
+            </code></pre>
+          </section>
+          <section>
 					  <blockquote cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
 						&ldquo;Lisp is a programmable programming language.&rdquo;
             <br>
@@ -165,9 +193,36 @@ nil                 ; Null
           </section>
 				</section>
 
-				<section>
-					<h2>Protocols</h2>
-				</section>
+        <section>
+          <section>
+            <h2>Multi-methods</h2>
+            <pre><code data-trim contenteditable>
+(defmulti thoughts-of (fn [person] (person :name)))
+
+(defmethod thoughts-of "Guido" [person]
+  (str (person :name) " has one way to do it."))
+
+(defmethod thoughts-of "Rich" [person]
+  (str (person :name) " values laziness."))
+
+(defmethod thoughts-of :default [person]
+  (str (person :name) " is not a well-known thinker."))
+            </code></pre>
+          </section>
+          <section>
+            <h2>Multi-methods</h2>
+            <pre><code data-trim contenteditable>
+(thoughts-of {:name "Guido"})
+; => "Guido has one way to do it."
+
+(thoughts-of {:name "Rich"})
+; => "Rich values laziness."
+
+(thoughts-of {:name "Julien"})
+; => "Julien is not a well-known thinker."
+            </code></pre>
+          </section>
+        </section>
 
        <section>
           <section>
@@ -178,6 +233,19 @@ nil                 ; Null
 
 (let [[_ _ _ x _] some-numbers] x)
 ; => 4
+            </code></pre>
+          </section>
+          <section>
+            <h3>Destructuring</h3>
+            <pre><code data-trim contenteditable>
+(defn get-parts
+  [ [x y z & others ] ]
+    (println "First three are: " x y z)
+    (println "Rest is: " others))
+
+(get-parts [ 1 2 3 4 5 ] )
+; => First three are:  1 2 3
+; => Rest is:  (4 5)
             </code></pre>
           </section>
           <section>
@@ -231,7 +299,7 @@ nil                 ; Null
 				history: true,
 				center: true,
 
-				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				theme: Reveal.getQueryHash().theme || 'default', // available themes are in /css/theme
 				transition: Reveal.getQueryHash().transition || 'none', // default/cube/page/concave/zoom/linear/fade/none
 
 				// Optional libraries used to extend on reveal.js
