@@ -69,7 +69,8 @@
 					<h3>Types</h3>
 					<pre><code data-trim contenteditable>
 ; hello             ; Comment
-12345678987654      ; Arbitrary precision integer
+123456789           ; Long
+1234567898765N      ; Arbitrary precision integer
 1.234               ; Doubles
 1.234M              ; Big decimals
 22/7                ; Rational numbers
@@ -201,7 +202,7 @@ nil                 ; Null
           <section>
             <h2>Multi-methods</h2>
             <pre><code data-trim contenteditable>
-(defmulti thoughts-of (fn [person] (person :name)))
+(defmulti thoughts-of (fn [person] (:name person)))
 
 (defmethod thoughts-of "Guido" [person]
   (str (person :name) " has one way to do it."))
